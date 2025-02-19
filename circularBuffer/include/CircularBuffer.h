@@ -11,13 +11,13 @@ class CircularBuffer
 {
 public:
     CircularBuffer();
-    CircularBuffer(size_t capacity);
+    CircularBuffer(size_t capacity_);
     ~CircularBuffer();
 
     bool isEmpty() const;
     bool isFull() const;
-    void enqueue(int value);
-    void push(int value);
+    void enqueue(int value_);
+    void push(int value_);
     int dequeue();
     int pop();
     int peek() const;

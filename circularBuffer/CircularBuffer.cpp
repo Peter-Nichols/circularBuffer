@@ -15,12 +15,13 @@ CircularBuffer::CircularBuffer() : capacity(MIN_BUFFER_SIZE), head(0), tail(0), 
 }
 
 // Constructor to initialize the buffer with a given capacity
-CircularBuffer::CircularBuffer(size_t capacity) : capacity(capacity), head(0), tail(0), size(0) {
+CircularBuffer::CircularBuffer(size_t capacity_) : capacity(capacity_), head(0), tail(0), size(0) {
     //Check the capacity for minimum and maximum size
     if (capacity < MIN_BUFFER_SIZE)
         capacity = MIN_BUFFER_SIZE;
     else if (capacity > MAX_BUFFER_SIZE)
         capacity = MAX_BUFFER_SIZE;
+
     buffer.resize(capacity);
 }
 
@@ -35,18 +36,18 @@ bool CircularBuffer::isFull() const {
 }
 
 // Add an element to the buffer
-void CircularBuffer::enqueue(int value) {
+void CircularBuffer::enqueue(int value_) {
     if (isFull()) {
         throw std::overflow_error("Buffer is full");
     }
-    buffer[tail] = value;
+    buffer[tail] = value_;
     tail = (tail + 1) % capacity; // Wrap around if necessary
     size++;
 }
 
 // Add an element to the buffer using push
-void CircularBuffer::push(int value) {
-    enqueue(value);
+void CircularBuffer::push(int value_) {
+    enqueue(value_);
 }
 
 // Remove and return the oldest element from the buffer

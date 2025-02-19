@@ -6,7 +6,7 @@
 int main(int rgc, char* argv[])
 {
     // Create a circular buffer with a capacity of 5
-    CircularBuffer cb(5);
+    CircularBuffer cb(3);
 
     // Enqueue elements
     cb.enqueue(100);
