@@ -1,5 +1,6 @@
 #include "CircularBuffer.h"
 
+#include <cstddef>
 #include <iostream>
 #include <stdexcept>
 
@@ -9,12 +10,17 @@ CircularBuffer::~CircularBuffer()
 }
 
 // Constructor to initialize the buffer with default minimum capacity
-CircularBuffer::CircularBuffer() : capacity(MIN_BUFFER_SIZE) {
+CircularBuffer::CircularBuffer() : capacity(MIN_BUFFER_SIZE), head(0), tail(0), size(0) {
     buffer.resize(capacity);
 }
 
 // Constructor to initialize the buffer with a given capacity
-CircularBuffer::CircularBuffer(size_t capacity) : capacity(capacity) {
+CircularBuffer::CircularBuffer(size_t capacity) : capacity(capacity), head(0), tail(0), size(0) {
+    //Check the capacity for minimum and maximum size
+    if (capacity < MIN_BUFFER_SIZE)
+        capacity = MIN_BUFFER_SIZE;
+    else if (capacity > MAX_BUFFER_SIZE)
+        capacity = MAX_BUFFER_SIZE;
     buffer.resize(capacity);
 }
 
@@ -38,6 +44,11 @@ void CircularBuffer::enqueue(int value) {
     size++;
 }
 
+// Add an element to the buffer using push
+void CircularBuffer::push(int value) {
+    enqueue(value);
+}
+
 // Remove and return the oldest element from the buffer
 int CircularBuffer::dequeue() {
     if (isEmpty()) {
@@ -49,12 +60,22 @@ int CircularBuffer::dequeue() {
     return value;
 }
 
+//Remove and return the oldest element from the buffer using pop
+int CircularBuffer::pop() {
+    return dequeue();
+}
+
 // Peek at the oldest element without removing it
 int CircularBuffer::peek() const {
     if (isEmpty()) {
         throw std::underflow_error("Buffer is empty");
     }
     return buffer[head];
+}
+
+// Get the size of the buffer
+size_t CircularBuffer::getSize() const {
+    return size;
 }
 
 // Display the contents of the buffer
