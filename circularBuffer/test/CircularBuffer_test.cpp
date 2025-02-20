@@ -4,18 +4,15 @@
 
 #include "CircularBuffer.h"
 
-
 #include <gtest/gtest.h>
 
 #include <string>
 #include <typeinfo>
 
-
 class CircularBufferFixture : public ::testing::Test
 {
 protected:
     CircularBuffer* cb;
-
 
     void SetUp() override
     {
@@ -110,6 +107,20 @@ TEST(CircularBufferFixture, WrapAround) {
     EXPECT_EQ(cb.pop(), 2);
     EXPECT_EQ(cb.pop(), 3);
     EXPECT_EQ(cb.pop(), 4);
+    EXPECT_TRUE(cb.isEmpty());
+}
+
+TEST(CircularBufferFixture, MixedOperationsEnqueueAndDequeue) {
+    CircularBuffer cb(5);
+    cb.enqueue(100);
+    cb.enqueue(200);
+    cb.enqueue(300);
+    EXPECT_EQ(cb.dequeue(), 100);
+    cb.enqueue(400);
+    EXPECT_EQ(cb.getSize(), 3);
+    EXPECT_EQ(cb.dequeue(), 200);
+    EXPECT_EQ(cb.dequeue(), 300);
+    EXPECT_EQ(cb.dequeue(), 400);
     EXPECT_TRUE(cb.isEmpty());
 }
 
